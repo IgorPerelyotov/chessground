@@ -87,7 +87,8 @@ export interface Config {
     pieces?: {
       baseUrl?: string;
     }
-  }
+  };
+  boardType?: cg.BoardType;
 }
 
 export function configure(state: State, config: Config) {

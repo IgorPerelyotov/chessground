@@ -95,6 +95,7 @@ export type Unbind = () => void;
 export type Timestamp = number;
 export type Milliseconds = number;
 export type KHz = number;
+export type BoardType = 'Standard' | 'Capablanca';
 
 export const files: File[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
 export const ranks: Rank[] = [1, 2, 3, 4, 5, 6, 7, 8];

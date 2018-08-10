@@ -92,7 +92,8 @@ export interface State {
   drawable: Drawable,
   exploding?: cg.Exploding;
   dom: cg.Dom,
-  hold: cg.Timer
+  hold: cg.Timer,
+  boardType: cg.BoardType
 }
 
 export function defaults(): Partial<State> {
@@ -170,6 +171,7 @@ export function defaults(): Partial<State> {
       },
       prevSvgHash: ''
     },
-    hold: timer()
+    hold: timer(),
+    boardType: 'Standard'
   };
 }
