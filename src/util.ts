@@ -55,9 +55,9 @@ const posToTranslateBase: (pos: cg.Pos, asWhite: boolean, xFactor: number, yFact
   (asWhite ? 8 - pos[1] : pos[1] - 1) * yFactor
 ];
 
-export const posToTranslateAbs = (bounds: ClientRect) => {
-  const xFactor = bounds.width / 8,
-  yFactor = bounds.height / 8;
+export const posToTranslateAbs = (bounds: ClientRect, bt: cg.BoardDimensions) => {
+  const xFactor = bounds.width / bt.width,
+  yFactor = bounds.height / bt.height;
   return (pos: cg.Pos, asWhite: boolean) => posToTranslateBase(pos, asWhite, xFactor, yFactor);
 };
 

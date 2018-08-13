@@ -18,7 +18,7 @@ interface SquareClasses { [key: string]: string }
 // in case of bugs, blame @veloce
 export default function render(s: State): void {
   const asWhite: boolean = s.orientation === 'white',
-  posToTranslate = s.dom.relative ? util.posToTranslateRel : util.posToTranslateAbs(s.dom.bounds()),
+  posToTranslate = s.dom.relative ? util.posToTranslateRel : util.posToTranslateAbs(s.dom.bounds(), s.boardType),
   translate = s.dom.relative ? util.translateRel : util.translateAbs,
   boardEl: HTMLElement = s.dom.elements.board,
   pieces: cg.Pieces = s.pieces,
