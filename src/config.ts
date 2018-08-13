@@ -128,6 +128,7 @@ export function configure(state: State, config: Config) {
         !((d === 'h' + rank) && dests.indexOf('g' + rank as cg.Key) !== -1)
     );
   }
+  state.boardType = getBoardType(config);
 };
 
 function merge(base: any, extend: any) {
@@ -139,4 +140,9 @@ function merge(base: any, extend: any) {
 
 function isObject(o: any): boolean {
   return typeof o === 'object';
+}
+
+function getBoardType(c: Config): cg.BoardDimensions {
+  if (c.boardType == 'Capablanca') return cg.capablanca
+  else return cg.standard;
 }

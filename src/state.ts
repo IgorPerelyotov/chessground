@@ -93,7 +93,7 @@ export interface State {
   exploding?: cg.Exploding;
   dom: cg.Dom,
   hold: cg.Timer,
-  boardType: cg.BoardType
+  boardType: cg.BoardDimensions
 }
 
 export function defaults(): Partial<State> {
@@ -172,6 +172,6 @@ export function defaults(): Partial<State> {
       prevSvgHash: ''
     },
     hold: timer(),
-    boardType: 'Standard'
+    boardType: cg.standard
   };
 }

@@ -97,5 +97,24 @@ export type Milliseconds = number;
 export type KHz = number;
 export type BoardType = 'Standard' | 'Capablanca';
 
+export interface BoardDimensions {
+  width: number;
+  height: number;
+}
+
+export type BoardTypes = {
+  [key in 'Standard' | 'Capablanca']: BoardDimensions;
+}
+
+export const standard: BoardDimensions = {
+  width: 8,
+  height: 8
+}
+
+export const capablanca: BoardDimensions = {
+  width: 10,
+  height: 8
+}
+
 export const files: File[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
 export const ranks: Rank[] = [1, 2, 3, 4, 5, 6, 7, 8];
