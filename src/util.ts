@@ -49,20 +49,20 @@ export const samePiece: (p1: cg.Piece, p2: cg.Piece) => boolean = (p1, p2) =>
 
 export const computeIsTrident = () => window.navigator.userAgent.indexOf('Trident/') > -1;
 
-const posToTranslateBase: (pos: cg.Pos, asWhite: boolean, xFactor: number, yFactor: number) => cg.NumberPair =
-(pos, asWhite, xFactor, yFactor) => [
-  (asWhite ? pos[0] - 1 : 8 - pos[0]) * xFactor,
-  (asWhite ? 8 - pos[1] : pos[1] - 1) * yFactor
+const posToTranslateBase: (pos: cg.Pos, asWhite: boolean, xFactor: number, yFactor: number, bt: cg.BoardDimensions) => cg.NumberPair =
+(pos, asWhite, xFactor, yFactor, bt) => [
+  (asWhite ? pos[0] - 1 : bt.width - pos[0]) * xFactor,
+  (asWhite ? bt.height - pos[1] : pos[1] - 1) * yFactor
 ];
 
 export const posToTranslateAbs = (bounds: ClientRect, bt: cg.BoardDimensions) => {
   const xFactor = bounds.width / bt.width,
   yFactor = bounds.height / bt.height;
-  return (pos: cg.Pos, asWhite: boolean) => posToTranslateBase(pos, asWhite, xFactor, yFactor);
+  return (pos: cg.Pos, asWhite: boolean) => posToTranslateBase(pos, asWhite, xFactor, yFactor, bt);
 };
 
-export const posToTranslateRel: (pos: cg.Pos, asWhite: boolean) => cg.NumberPair =
-  (pos, asWhite) => posToTranslateBase(pos, asWhite, 12.5, 12.5);
+export const posToTranslateRel: (pos: cg.Pos, asWhite: boolean, bt: cg.BoardDimensions) => cg.NumberPair =
+  (pos, asWhite, bt) => posToTranslateBase(pos, asWhite, 12.5, 12.5, bt);
 
 export const translateAbs = (el: HTMLElement, pos: cg.Pos) => {
   el.style.transform = `translate(${pos[0]}px,${pos[1]}px)`;

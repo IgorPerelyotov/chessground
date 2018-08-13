@@ -56,7 +56,7 @@ export default function render(s: State): void {
       // if piece not being dragged anymore, remove dragging style
       if (el.cgDragging && (!curDrag || curDrag.orig !== k)) {
         el.classList.remove('dragging');
-        translate(el, posToTranslate(key2pos(k), asWhite));
+        translate(el, posToTranslate(key2pos(k), asWhite, s.boardType));
         el.cgDragging = false;
       }
       // remove fading class if it still remains
@@ -73,11 +73,11 @@ export default function render(s: State): void {
           pos[0] += anim[2];
           pos[1] += anim[3];
           el.classList.add('anim');
-          translate(el, posToTranslate(pos, asWhite));
+          translate(el, posToTranslate(pos, asWhite, s.boardType));
         } else if (el.cgAnimating) {
           el.cgAnimating = false;
           el.classList.remove('anim');
-          translate(el, posToTranslate(key2pos(k), asWhite));
+          translate(el, posToTranslate(key2pos(k), asWhite, s.boardType));
           if (s.addPieceZIndex) el.style.zIndex = posZIndex(key2pos(k), asWhite);
         }
         // same piece: flag as same
@@ -116,7 +116,7 @@ export default function render(s: State): void {
     if (!sameSquares[sk]) {
       sMvdset = movedSquares[squares[sk]];
       sMvd = sMvdset && sMvdset.pop();
-      const translation = posToTranslate(key2pos(sk as cg.Key), asWhite);
+      const translation = posToTranslate(key2pos(sk as cg.Key), asWhite, s.boardType);
       if (sMvd) {
         sMvd.cgKey = sk as cg.Key;
         translate(sMvd, translation);
@@ -155,7 +155,7 @@ export default function render(s: State): void {
           pos[0] += anim[2];
           pos[1] += anim[3];
         }
-        translate(pMvd, posToTranslate(pos, asWhite));
+        translate(pMvd, posToTranslate(pos, asWhite, s.boardType));
       }
       // no piece in moved obj: insert the new piece
       // new: assume the new piece is not being dragged
@@ -173,7 +173,7 @@ export default function render(s: State): void {
           pos[0] += anim[2];
           pos[1] += anim[3];
         }
-        translate(pieceNode, posToTranslate(pos, asWhite));
+        translate(pieceNode, posToTranslate(pos, asWhite, s.boardType));
 
         if (s.addPieceZIndex) pieceNode.style.zIndex = posZIndex(pos, asWhite);
 
