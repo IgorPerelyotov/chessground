@@ -102,10 +102,6 @@ export interface BoardDimensions {
   height: number;
 }
 
-export type BoardTypes = {
-  [key in 'Standard' | 'Capablanca']: BoardDimensions;
-}
-
 export const standard: BoardDimensions = {
   width: 8,
   height: 8
