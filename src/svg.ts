@@ -126,7 +126,8 @@ function renderShape(state: State, {shape, current, hash}: Shape, brushes: DrawB
     state.drawable.pieces.baseUrl,
     orient(key2pos(shape.orig), state.orientation),
     shape.piece,
-    bounds);
+    bounds,
+    state.boardType);
   else {
     const orig = orient(key2pos(shape.orig), state.orientation);
     if (shape.orig && shape.dest) {
@@ -183,16 +184,17 @@ function renderArrow(brush: DrawBrush, orig: cg.Pos, dest: cg.Pos, current: bool
   });
 }
 
-function renderPiece(baseUrl: string, pos: cg.Pos, piece: DrawShapePiece, bounds: ClientRect): SVGElement {
+function renderPiece(baseUrl: string, pos: cg.Pos, piece: DrawShapePiece, bounds: ClientRect, bd: cg.BoardDimensions): SVGElement {
   const o = pos2px(pos, bounds),
-  size = bounds.width / 8 * (piece.scale || 1),
+  width = bounds.width / bd.width * (piece.scale || 1),
+  height = bounds.width / bd.height * (piece.scale || 1),
   name = piece.color[0] + (piece.role === 'knight' ? 'n' : piece.role[0]).toUpperCase();
   return setAttributes(createElement('image'), {
     className: `${piece.role} ${piece.color}`,
-    x: o[0] - size / 2,
-    y: o[1] - size / 2,
-    width: size,
-    height: size,
+    x: o[0] - width / 2,
+    y: o[1] - height / 2,
+    width: width,
+    height: height,
     href: baseUrl + name + '.svg'
   });
 }

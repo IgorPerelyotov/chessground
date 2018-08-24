@@ -42,7 +42,8 @@ export default function render(s: State): void {
   pMvdset: cg.PieceNode[],
   pMvd: cg.PieceNode | undefined,
   sMvdset: cg.SquareNode[],
-  sMvd: cg.SquareNode | undefined;
+  sMvd: cg.SquareNode | undefined,
+  bType: cg.BoardDimensions = s.boardType;
 
   // walk over all board dom elements, apply animations and flag moved pieces
   el = boardEl.firstChild as cg.PieceNode | cg.SquareNode;
@@ -130,6 +131,8 @@ export default function render(s: State): void {
     }
   }
 
+  // append a class to pieces in case of Capablanca board type to set correct width
+  const boardClass = (bType.width == 10) ? " capaPiece" : "";
   // walk over all pieces in current set, apply dom changes to moved pieces
   // or append new pieces
   for (const j in piecesKeys) {
@@ -162,7 +165,7 @@ export default function render(s: State): void {
       // might be a bad idea
       else {
 
-        const pieceName = pieceNameOf(p),
+        const pieceName = pieceNameOf(p) + boardClass,
         pieceNode = createEl('piece', pieceName) as cg.PieceNode,
         pos = key2pos(k);
 
