@@ -132,7 +132,7 @@ export default function render(s: State): void {
   }
 
   // append a class to pieces in case of Capablanca board type to set correct width
-  const boardClass = (bType.width == 10) ? " capaPiece" : "";
+  const boardClass = (bType.width == 10) ? " capaSquare" : "";
   // walk over all pieces in current set, apply dom changes to moved pieces
   // or append new pieces
   for (const j in piecesKeys) {
@@ -219,7 +219,8 @@ function computeSquareClasses(s: State): SquareClasses {
   }
   if (s.check && s.highlight.check) addSquare(squares, s.check, 'check');
   if (s.selected) {
-    addSquare(squares, s.selected, 'selected');
+    const boardClass = s.boardType.width == 10 ? 'selected capaSquare' : 'selected';
+    addSquare(squares, s.selected, boardClass);
     if (s.movable.showDests) {
       const dests = s.movable.dests && s.movable.dests[s.selected];
       if (dests) for (i in dests) {

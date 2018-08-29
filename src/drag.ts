@@ -28,7 +28,7 @@ export function start(s: State, e: cg.MouchEvent): void {
   const asWhite = s.orientation === 'white',
   bounds = s.dom.bounds(),
   position = util.eventPosition(e) as cg.NumberPair,
-  orig = board.getKeyAtDomPos(position, asWhite, bounds);
+  orig = board.getKeyAtDomPos(position, asWhite, bounds, s.boardType);
   if (!orig) return;
   const piece = s.pieces[orig];
   const previouslySelected = s.selected;
@@ -46,7 +46,7 @@ export function start(s: State, e: cg.MouchEvent): void {
   const stillSelected = s.selected === orig;
   const element = pieceElementByKey(s, orig);
   if (piece && element && stillSelected && board.isDraggable(s, orig)) {
-    const squareBounds = computeSquareBounds(orig, asWhite, bounds);
+    const squareBounds = computeSquareBounds(orig, asWhite, bounds, s.boardType);
     s.draggable.current = {
       orig: orig,
       origPos: util.key2pos(orig),
@@ -91,7 +91,7 @@ export function dragNewPiece(s: State, piece: cg.Piece, e: cg.MouchEvent, force?
   const position = util.eventPosition(e) as cg.NumberPair,
   asWhite = s.orientation === 'white',
   bounds = s.dom.bounds(),
-  squareBounds = computeSquareBounds(key, asWhite, bounds);
+  squareBounds = computeSquareBounds(key, asWhite, bounds, s.boardType);
 
   const rel: cg.NumberPair = [
     (asWhite ? 0 : 7) * squareBounds.width + bounds.left,
@@ -175,7 +175,7 @@ export function end(s: State, e: cg.MouchEvent): void {
   board.unsetPredrop(s);
   // touchend has no position; so use the last touchmove position instead
   const eventPos: cg.NumberPair = util.eventPosition(e) || cur.epos;
-  const dest = board.getKeyAtDomPos(eventPos, s.orientation === 'white', s.dom.bounds());
+  const dest = board.getKeyAtDomPos(eventPos, s.orientation === 'white', s.dom.bounds(), s.boardType);
   if (dest && cur.started) {
     if (cur.newPiece) board.dropNewPiece(s, cur.orig, dest, cur.force);
     else {
@@ -214,17 +214,17 @@ function removeDragElements(s: State) {
   if (e.ghost) util.setVisible(e.ghost, false);
 }
 
-function computeSquareBounds(key: cg.Key, asWhite: boolean, bounds: ClientRect) {
+function computeSquareBounds(key: cg.Key, asWhite: boolean, bounds: ClientRect, bd: cg.BoardDimensions) {
   const pos = util.key2pos(key);
   if (!asWhite) {
     pos[0] = 9 - pos[0];
     pos[1] = 9 - pos[1];
   }
   return {
-    left: bounds.left + bounds.width * (pos[0] - 1) / 8,
-    top: bounds.top + bounds.height * (8 - pos[1]) / 8,
-    width: bounds.width / 8,
-    height: bounds.height / 8
+    left: bounds.left + bounds.width * (pos[0] - 1) / bd.width,
+    top: bounds.top + bounds.height * (8 - pos[1]) / bd.height,
+    width: bounds.width / bd.width,
+    height: bounds.height / bd.height
   };
 }
 

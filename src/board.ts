@@ -328,10 +328,10 @@ export function stop(state: State): void {
   cancelMove(state);
 }
 
-export function getKeyAtDomPos(pos: cg.NumberPair, asWhite: boolean, bounds: ClientRect): cg.Key | undefined {
-  let file = Math.ceil(8 * ((pos[0] - bounds.left) / bounds.width));
-  if (!asWhite) file = 9 - file;
-  let rank = Math.ceil(8 - (8 * ((pos[1] - bounds.top) / bounds.height)));
-  if (!asWhite) rank = 9 - rank;
-  return (file > 0 && file < 9 && rank > 0 && rank < 9) ? pos2key([file, rank]) : undefined;
+export function getKeyAtDomPos(pos: cg.NumberPair, asWhite: boolean, bounds: ClientRect, bd: cg.BoardDimensions): cg.Key | undefined {
+  let file = Math.ceil(bd.width * ((pos[0] - bounds.left) / bounds.width));
+  if (!asWhite) file = bd.width + 1 - file;
+  let rank = Math.ceil(bd.height - (8 * ((pos[1] - bounds.top) / bounds.height)));
+  if (!asWhite) rank = bd.height + 1 - rank;
+  return (file > 0 && file < bd.width + 1 && rank > 0 && rank < bd.height + 1) ? pos2key([file, rank]) : undefined;
 }
