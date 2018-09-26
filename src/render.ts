@@ -215,36 +215,37 @@ function computeSquareClasses(s: State): SquareClasses {
   const squares: SquareClasses = {};
   let i: any, k: cg.Key;
   if (s.lastMove && s.highlight.lastMove) for (i in s.lastMove) {
-    addSquare(squares, s.lastMove[i], 'last-move');
+    addSquare(squares, s.lastMove[i], 'last-move', s.boardType);
   }
-  if (s.check && s.highlight.check) addSquare(squares, s.check, 'check');
+  if (s.check && s.highlight.check) addSquare(squares, s.check, 'check', s.boardType);
   if (s.selected) {
     const boardClass = s.boardType.width == 10 ? 'selected capaSquare' : 'selected';
-    addSquare(squares, s.selected, boardClass);
+    addSquare(squares, s.selected, boardClass, s.boardType);
     if (s.movable.showDests) {
       const dests = s.movable.dests && s.movable.dests[s.selected];
       if (dests) for (i in dests) {
         k = dests[i];
-        addSquare(squares, k, 'move-dest' + (s.pieces[k] ? ' oc' : ''));
+        addSquare(squares, k, 'move-dest' + (s.pieces[k] ? ' oc' : ''), s.boardType);
       }
       const pDests = s.premovable.dests;
       if (pDests) for (i in pDests) {
         k = pDests[i];
-        addSquare(squares, k, 'premove-dest' + (s.pieces[k] ? ' oc' : ''));
+        addSquare(squares, k, 'premove-dest' + (s.pieces[k] ? ' oc' : ''), s.boardType);
       }
     }
   }
   const premove = s.premovable.current;
-  if (premove) for (i in premove) addSquare(squares, premove[i], 'current-premove');
-  else if (s.predroppable.current) addSquare(squares, s.predroppable.current.key, 'current-premove');
+  if (premove) for (i in premove) addSquare(squares, premove[i], 'current-premove', s.boardType);
+  else if (s.predroppable.current) addSquare(squares, s.predroppable.current.key, 'current-premove', s.boardType);
 
   const o = s.exploding;
-  if (o) for (i in o.keys) addSquare(squares, o.keys[i], 'exploding' + o.stage);
+  if (o) for (i in o.keys) addSquare(squares, o.keys[i], 'exploding' + o.stage, s.boardType);
 
   return squares;
 }
 
-function addSquare(squares: SquareClasses, key: cg.Key, klass: string): void {
-  if (squares[key]) squares[key] += ' ' + klass;
-  else squares[key] = klass;
+function addSquare(squares: SquareClasses, key: cg.Key, klass: string, bType: cg.BoardDimensions): void {
+  const boardClass = bType.width == 10 ? ' capaSquare' : '';
+  if (squares[key]) squares[key] += ' ' + klass + boardClass;
+  else squares[key] = klass + boardClass;
 }
