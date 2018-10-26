@@ -62,6 +62,7 @@ export interface MoveMetadata {
   holdTime?: number;
   captured?: Piece;
   predrop?: boolean;
+  boardType?: string;
 }
 export interface SetPremoveMetadata {
   ctrlKey?: boolean;
@@ -100,6 +101,7 @@ export type BoardType = 'Standard' | 'Capablanca';
 export interface BoardDimensions {
   width: number;
   height: number;
+  key?: string;
 }
 
 export const standard: BoardDimensions = {
@@ -109,7 +111,8 @@ export const standard: BoardDimensions = {
 
 export const capablanca: BoardDimensions = {
   width: 10,
-  height: 8
+  height: 8,
+  key: "c"
 }
 
 export const files: File[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];

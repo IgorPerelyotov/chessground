@@ -153,7 +153,8 @@ export function userMove(state: State, orig: cg.Key, dest: cg.Key): boolean {
       const metadata: cg.MoveMetadata = {
         premove: false,
         ctrlKey: state.stats.ctrlKey,
-        holdTime: holdTime
+        holdTime: holdTime,
+	boardType: state.boardType.key
       };
       if (result !== true) metadata.captured = result;
       callUserFunction(state.movable.events.after, orig, dest, metadata);
